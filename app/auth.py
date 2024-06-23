@@ -5,14 +5,19 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from typing import Optional
+import os
+from dotenv import load_dotenv
 
 from . import models, schemas
 from .database import SessionLocal, engine
 
+# Carrega variáveis do arquivo .env
+load_dotenv()
+
 # Configurações JWT
-SECRET_KEY = "mysecretkey"  # Troque para sua chave secreta
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 # Criação do contexto de criptografia
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
